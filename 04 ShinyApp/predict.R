@@ -17,6 +17,7 @@ freq2.df <- readRDS("./freq2.RDS")
 freq3.df <- readRDS("./freq3.RDS")
 freq4.df <- readRDS("./freq4.RDS")
 
+library(dplyr)
 
 ####################################
 # Check if there are words returned
