@@ -25,7 +25,7 @@
   }
 
 </style>
-Building a Word Predictor with RStudio
+Word Prediction with RStudio & ShinyApp
 ========================================================
 author: Bjoern W. Steffens
 date: October 9, 2016
@@ -42,15 +42,15 @@ Each key press results in a prediction rather than repeatedly sequencing through
 
 Predictive text could allow for an entire word to be input by single keypress. **Predictive text makes efficient use of fewer device keys to input writing into a text message**, an e-mail, an address book, a calendar, and the like.
 
-Source: <a href="https://en.wikipedia.org/wiki/Predictive_text" target="_top"/>Wikipedia</a>
+Source: <a href="https://en.wikipedia.org/wiki/Predictive_text" target="_blank"/>Wikipedia</a>
 
 
 2. Implementation Overview
 ========================================================
 <div class="footer">Word prediction by Bjoern W. Steffens</div>
-The solution is based on Natural Language Processing <a href="https://cran.r-project.org/web/views/NaturalLanguageProcessing.html" target="_top"> (NLP)</a> research implementing various R-libraries working on large quantities of text or Corpuses. These activities are also referred to as <a href="https://eight2late.wordpress.com/2015/05/27/a-gentle-introduction-to-text-mining-using-r/" target="_top">text mining.</a>
+The solution I have implemented is based on Natural Language Processing <a href="https://cran.r-project.org/web/views/NaturalLanguageProcessing.html" target="_blank"> (NLP)</a> research leveraging various R-libraries working on large quantities of text or Corpuses. Such activities are also refered to as <a href="https://eight2late.wordpress.com/2015/05/27/a-gentle-introduction-to-text-mining-using-r/" target="_blank">text mining.</a>
 
-Text from three different sources (blogs, news and twitter) with ~100 million words have been randomly sampled where the frequency of word and combinations <a href="https://en.wikipedia.org/wiki/N-gram"> (ngrams)</a> of 180,000 words have been looked at in detail. 
+Text from three different sources (blogs, news and twitter) with ~100 million words have been randomly sampled where the frequency and combinations <a href="https://en.wikipedia.org/wiki/N-gram"> (ngrams)</a> of 180,000 words have been looked at in detail. 
 
 The frequency of 2, 3 and 4 word compbinations (models) have been pre-processed and persisted in files. These files provide the models for predicting possible next words. 
 
@@ -62,13 +62,13 @@ When text is keyd in, one of these models is scanned picking the statistically m
 <div class="footer">Word prediction by Bjoern W. Steffens</div>
 1. Large quantities of text from Internet (blogs, news and twitter) feeds have been randomly sampled.
 
-2. The corpus (text) has been <a href="https://github.com/bjoernsteffens/capstone_science/blob/master/01%20Build%20nGram%20Models/create_nGrams.R" target="_top"> processed </a> looking for frequencies of word and combination of words <a href="http://rpubs.com/bjoerntheviking/projectstatus" target="_top"> (models).</a> 
+2. The corpus (text) has been <a href="https://github.com/bjoernsteffens/capstone_science/blob/master/01%20Build%20nGram%20Models/create_nGrams.R" target="_blank"> processed</a> looking for frequencies of words and combinations of words <a href="http://rpubs.com/bjoerntheviking/projectstatus" target="_blank"> (models).</a> 
 
 3. The frequency of 1, 2, 3 and 4 word combinations (ngrams) are persited to disk to be used by the word predictor implementation.
 
 4. The ngrams are used by the application to scan and predict the next possible word with the highest frequency (statistically most likely next word).
 
-<p style="font-size: 18px">Note: Step 1 through 3 above were implemented on a 12 Core system randmply sampling 180,000 words from a text corpus of ~100 million words. Creating all the ngrams took approximately 35 minutes on this system using R. Leveraging Spark instead will get the processing time down significantly</p>
+<p style="font-size: 24px">Note: Step 1 through 3 above were implemented on a 12 Core system randmply sampling 180,000 words from a text corpus of ~100 million words. Creating all the ngrams took approximately 20 minutes.  Spark code gets the processing time down significantly</p>
 
 4. Performance Considerations
 ========================================================
@@ -83,6 +83,8 @@ From a text corpus of 180,000 processed words stored in separate files, the foll
 
 Considering the file size and lookup time of loading all matched entries (1) or simply only the top 5 (2) we can tune memory and performance of the implementation. Devices with more memory we can prepare larger ngram files and get more accurate predictions. 
 
+<p style="font-size: 24px">Note: Loading the CSV files used to prototype the application implementation could further be redused by using RDS format. Loading the 3 RDS files, with each containing 500K ngrams, took less than a second on a local computer. Loading the same amount of data with CSV format took well over a minute.</p>
+
 
 5. Prototype Resources
 ========================================================
@@ -91,8 +93,8 @@ Considering the file size and lookup time of loading all matched entries (1) or 
 <img src="./images/wordcloud.png"></img>
 </div>
 
-- Link to <a href="https://github.com/bjoernsteffens/capstone_science" target="_top">GitHub</a> source code
-- Link to Shinyio application to try it out
+- Link to <a href="https://github.com/bjoernsteffens/capstone_science" target="_blank">GitHub</a> source code
+- Link to <a href="https://bjoernsteffens.shinyapps.io/predictwords/" target="_blank"> Shinyio</a> application to try it out
 
 
 Appendix - References
